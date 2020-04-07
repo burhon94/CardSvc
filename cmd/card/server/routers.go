@@ -2,7 +2,12 @@ package server
 
 func (s *Server) InitRoutes()  {
 	s.router.GET(
-		"/",
-		s.handlerIndex(),
+		"/api/status",
+		s.handlerHealth(),
+	)
+
+	s.router.GET(
+		"/api/get/cards",
+		s.handlerGetCards(),
 	)
 }
