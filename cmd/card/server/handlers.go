@@ -29,3 +29,17 @@ func (s *Server) handlerGetCards() http.HandlerFunc {
 		log.Print(cards)
 	}
 }
+
+func (s *Server) handlerMyCards() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		myCards, err := s.cards.HandleMyCards(ctx, request)
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		log.Print(myCards)
+	}
+}

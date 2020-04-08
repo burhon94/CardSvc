@@ -10,4 +10,10 @@ func (s *Server) InitRoutes()  {
 		"/api/get/cards",
 		s.handlerGetCards(),
 	)
+
+	s.router.GET(
+		"/api/my/cards",
+		s.handlerMyCards(),
+	)
+
 }

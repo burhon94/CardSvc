@@ -8,3 +8,5 @@ VALUES (11111, 1111, 1111, 111, 'NAME11', 1111, 1),
 ON CONFLICT DO NOTHING;`
 
 const GetCards = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards;`
+
+const GetMyCards = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE client_id = $1;`

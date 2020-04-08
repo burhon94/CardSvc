@@ -5,3 +5,7 @@ GET http://localhost:10000
 GET http://localhost:10000/api/get/cards
 
 ###
+
+GET http://localhost:10000/api/my/cards
+
+###
