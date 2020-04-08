@@ -16,4 +16,9 @@ func (s *Server) InitRoutes()  {
 		s.handlerMyCards(),
 	)
 
+	s.router.GET(
+		"/api/my/card/{id}",
+		s.handlerMyCard(),
+	)
+
 }

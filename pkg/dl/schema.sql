@@ -18,3 +18,5 @@ VALUES (11111, 1111, 1111, 111, 'NAME11', 1111, 1),
 ON CONFLICT DO NOTHING;
 
 SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards;
+
+SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE pan = 11111 and client_id = 1;

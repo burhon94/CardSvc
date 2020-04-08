@@ -1,6 +1,6 @@
 package card
 
-type Struct struct {
+type StructCard struct {
 	Pan        int64 `json:"pan"`
 	Pin        int64 `json:"pin"`
 	Balance    int64 `json:"balance"`

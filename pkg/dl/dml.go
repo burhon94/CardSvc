@@ -10,3 +10,5 @@ ON CONFLICT DO NOTHING;`
 const GetCards = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards;`
 
 const GetMyCards = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE client_id = $1;`
+
+const GetMyCard = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE pan = $2 and client_id = $1;`
