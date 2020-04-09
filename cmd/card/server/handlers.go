@@ -61,12 +61,17 @@ func (s *Server) handlerMyCard() http.HandlerFunc {
 			log.Printf("can't convert id: %v", err)
 			return
 		}
-		myCards, err := s.cards.HandleMyCard(ctx, request, int64(id))
+		myCard, err := s.cards.HandleMyCard(ctx, request, int64(id))
 		if err != nil {
 			log.Print(err)
 			return
 		}
 
-		log.Print(myCards)
+		if myCard.Pan <= 0 {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		log.Print(myCard)
 	}
 }

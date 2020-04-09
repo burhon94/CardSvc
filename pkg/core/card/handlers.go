@@ -64,7 +64,7 @@ func (c *Card) HandleMyCards(ctx context.Context, request *http.Request) (cards 
 }
 
 func (c *Card) HandleMyCard(ctx context.Context, request *http.Request, idCard int64) (card StructCard, err error) {
-	id := 1
+	id := 2
 	rows, err := c.pool.Query(ctx, dl.GetMyCard, id, idCard)
 	if err != nil {
 		log.Print(err)
