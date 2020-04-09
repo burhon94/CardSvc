@@ -2,7 +2,9 @@ package server
 
 import (
 	"context"
+	"github.com/burhon94/CardSvc/pkg/core/card"
 	"github.com/burhon94/alifMux/pkg/mux"
+	readJSON "github.com/burhon94/json/cmd/reader"
 	"log"
 	"net/http"
 	"strconv"
@@ -73,5 +75,24 @@ func (s *Server) handlerMyCard() http.HandlerFunc {
 		}
 
 		log.Print(myCard)
+	}
+}
+
+func (s *Server) handlerCreateCard() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		var requestData card.CreateCard
+		err := readJSON.ReadJSONHTTP(request, &requestData)
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		err = s.cards.HandleCreateCard(ctx, request, requestData)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			log.Printf("can't create card to client: %v", err)
+			return
+		}
 	}
 }

@@ -13,3 +13,17 @@ GET http://localhost:10000/api/my/cards
 GET http://localhost:10000/api/my/card/33333
 
 ###
+
+POST http://localhost:10000/api/card/0
+Content-Type: application/json
+
+{
+  "client_id": 1,
+  "pin": 4444,
+  "balance": 999999,
+  "cvv": 333,
+  "holder_name": "TESTHOLDERNAME",
+  "validity": "1222"
+}
+
+###

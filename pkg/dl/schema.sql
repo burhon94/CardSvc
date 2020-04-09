@@ -20,3 +20,5 @@ ON CONFLICT DO NOTHING;
 SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards;
 
 SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE pan = 11111 and client_id = 1;
+
+select pan from cards order by pan desc;

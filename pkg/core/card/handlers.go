@@ -90,3 +90,20 @@ func (c *Card) HandleMyCard(ctx context.Context, request *http.Request, idCard i
 
 	return card, nil
 }
+
+func (c *Card) HandleCreateCard(ctx context.Context, request *http.Request, cardData CreateCard) error {
+	var lastPan int64
+	err := c.pool.QueryRow(ctx, dl.GetPan).Scan(&lastPan)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	_, err = c.pool.Exec(ctx, dl.CreateCard, lastPan+1, cardData.Pin, cardData.Balance, cardData.Cvv, cardData.HolderName, cardData.Validity, cardData.ClientId)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	return nil
+}

@@ -12,3 +12,9 @@ const GetCards = `SELECT pan, pin, balance, cvv, holderName, validity, client_id
 const GetMyCards = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE client_id = $1;`
 
 const GetMyCard = `SELECT pan, pin, balance, cvv, holderName, validity, client_id FROM cards WHERE pan = $2 and client_id = $1;`
+
+const GetPan = `select pan from cards order by pan desc;`
+
+const CreateCard = `INSERT INTO cards
+    (pan, pin, balance, cvv, holderName, validity, client_id)
+VALUES ($1, $2, $3, $4, $5, $6, $7);`

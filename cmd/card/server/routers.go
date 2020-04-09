@@ -21,4 +21,8 @@ func (s *Server) InitRoutes()  {
 		s.handlerMyCard(),
 	)
 
+	s.router.POST(
+		"/api/card/0",
+		s.handlerCreateCard(),
+		)
 }
