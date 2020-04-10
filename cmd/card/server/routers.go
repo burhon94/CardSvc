@@ -36,4 +36,13 @@ func (s *Server) InitRoutes() {
 		s.handlerCardUnlock(),
 	)
 
+	s.router.POST(
+		"/api/my/card/{id}/lock",
+		s.handlerMyCardLock(),
+	)
+
+	s.router.POST(
+		"/api/my/card/{id}/unlock",
+		s.handlerMyCardUnlock(),
+	)
 }

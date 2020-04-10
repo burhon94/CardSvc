@@ -132,3 +132,51 @@ func (s *Server) handlerCardUnlock() http.HandlerFunc {
 		}
 	}
 }
+
+func (s *Server) handlerMyCardLock() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		value, ok := mux.FromContext(ctx, "id")
+		if !ok {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		id, err := strconv.Atoi(value)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		err = s.cards.HandleMyCardLock(ctx, request, int64(id))
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+	}
+}
+
+func (s *Server) handlerMyCardUnlock() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		value, ok := mux.FromContext(ctx, "id")
+		if !ok {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		id, err := strconv.Atoi(value)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		err = s.cards.HandleMyCardUnlock(ctx, request, int64(id))
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+	}
+}

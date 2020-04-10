@@ -22,3 +22,7 @@ type CreateCard struct {
 type LockUnLock struct {
 	PAN int64 `json:"pan"`
 }
+
+type LockMyCard struct {
+
+}

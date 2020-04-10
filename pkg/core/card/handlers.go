@@ -146,3 +146,23 @@ func (c *Card) HandleCardUnlock(ctx context.Context, request *http.Request, card
 
 	return nil
 }
+
+func (c *Card) HandleMyCardLock(ctx context.Context, request *http.Request, cardId int64) error {
+	_, err := c.pool.Exec(ctx, dl.LockMyCard, cardId)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	return nil
+}
+
+func (c *Card) HandleMyCardUnlock(ctx context.Context, request *http.Request, cardId int64) error {
+	_, err := c.pool.Exec(ctx, dl.UnlockMyCard, cardId)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	return nil
+}

@@ -19,8 +19,12 @@ const CreateCard = `INSERT INTO cards
     (pan, pin, balance, cvv, holderName, validity, client_id)
 VALUES ($1, $2, $3, $4, $5, $6, $7);`
 
-const CheckPan = `select pan from cards where pan = $1;`
+const CheckPan = `SELECT pan FROM cards WHERE pan = $1;`
 
-const LockCard = `update cards set lock = true where pan = $1;`
+const LockCard = `UPDATE cards SET lock = TRUE WHERE pan = $1;`
 
-const UnlockCard = `update cards set lock = false where pan = $1;`
+const UnlockCard = `UPDATE cards SET lock = FALSE WHERE pan = $1;`
+
+const LockMyCard = `UPDATE cards SET lock = TRUE WHERE id = $1;`
+
+const UnlockMyCard = `UPDATE cards SET lock = FALSE WHERE id = $1;`
