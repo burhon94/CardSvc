@@ -23,7 +23,7 @@ func (s *Server) handlerHealth() http.HandlerFunc {
 
 func (s *Server) handlerGetCards() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		cards, err := s.cards.HandleGetCards(ctx)
 		if err != nil {
 			log.Print(err)
@@ -36,7 +36,7 @@ func (s *Server) handlerGetCards() http.HandlerFunc {
 
 func (s *Server) handlerMyCards() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		myCards, err := s.cards.HandleMyCards(ctx, request)
 		if err != nil {
 			log.Print(err)
@@ -49,7 +49,7 @@ func (s *Server) handlerMyCards() http.HandlerFunc {
 
 func (s *Server) handlerMyCard() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		value, ok := mux.FromContext(ctx, "id")
 		if !ok {
 			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -87,11 +87,47 @@ func (s *Server) handlerCreateCard() http.HandlerFunc {
 			return
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		err = s.cards.HandleCreateCard(ctx, request, requestData)
 		if err != nil {
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			log.Printf("can't create card to client: %v", err)
+			return
+		}
+	}
+}
+
+func (s *Server) handlerCardLock() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		var requestData card.LockUnLock
+		err := readJSON.ReadJSONHTTP(request, &requestData)
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		err = s.cards.HandleCardLock(ctx, request, requestData)
+		if err != nil {
+			log.Print(err)
+			return
+		}
+	}
+}
+
+func (s *Server) handlerCardUnlock() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		var requestData card.LockUnLock
+		err := readJSON.ReadJSONHTTP(request, &requestData)
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		err = s.cards.HandleCardUnlock(ctx, request, requestData)
+		if err != nil {
+			log.Print(err)
 			return
 		}
 	}

@@ -18,3 +18,7 @@ type CreateCard struct {
 	HolderName string `json:"holder_name"`
 	Validity   string `json:"validity"`
 }
+
+type LockUnLock struct {
+	PAN int64 `json:"pan"`
+}

@@ -27,3 +27,21 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:10000/api/card/lock
+Content-Type: application/json
+
+{
+  "pan": 33333
+}
+
+###
+
+POST http://localhost:10000/api/card/unlock
+Content-Type: application/json
+
+{
+  "pan": 11111
+}
+
+###

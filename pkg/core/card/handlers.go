@@ -3,6 +3,7 @@ package card
 import (
 	"context"
 	"github.com/burhon94/CardSvc/pkg/dl"
+	"github.com/jackc/pgx/v4"
 	"log"
 	"net/http"
 )
@@ -100,6 +101,44 @@ func (c *Card) HandleCreateCard(ctx context.Context, request *http.Request, card
 	}
 
 	_, err = c.pool.Exec(ctx, dl.CreateCard, lastPan+1, cardData.Pin, cardData.Balance, cardData.Cvv, cardData.HolderName, cardData.Validity, cardData.ClientId)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	return nil
+}
+
+func (c *Card) HandleCardLock(ctx context.Context, request *http.Request, cardPAN LockUnLock) error {
+	var tmpPAN int64
+	err := c.pool.QueryRow(ctx, dl.CheckPan, cardPAN.PAN).Scan(&tmpPAN)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return err
+		}
+		return err
+	}
+
+	_, err = c.pool.Exec(ctx, dl.LockCard, tmpPAN)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	return nil
+}
+
+func (c *Card) HandleCardUnlock(ctx context.Context, request *http.Request, cardPAN LockUnLock) error {
+	var tmpPAN int64
+	err := c.pool.QueryRow(ctx, dl.CheckPan, cardPAN.PAN).Scan(&tmpPAN)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return err
+		}
+		return err
+	}
+
+	_, err = c.pool.Exec(ctx, dl.UnlockCard, tmpPAN)
 	if err != nil {
 		log.Print(err)
 		return err

@@ -1,6 +1,6 @@
 package server
 
-func (s *Server) InitRoutes()  {
+func (s *Server) InitRoutes() {
 	s.router.GET(
 		"/api/status",
 		s.handlerHealth(),
@@ -24,5 +24,16 @@ func (s *Server) InitRoutes()  {
 	s.router.POST(
 		"/api/card/0",
 		s.handlerCreateCard(),
-		)
+	)
+
+	s.router.POST(
+		"/api/card/lock",
+		s.handlerCardLock(),
+	)
+
+	s.router.POST(
+		"/api/card/unlock",
+		s.handlerCardUnlock(),
+	)
+
 }
